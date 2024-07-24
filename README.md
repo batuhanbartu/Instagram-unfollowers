@@ -4,6 +4,7 @@
 </li>
 
 You can check if it is installed by typing node -v
+
 If you encounter any problems, be sure to write to me.
 
 You run the project by typing node app.js, good luck :))
