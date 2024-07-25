@@ -7,16 +7,6 @@ const { sample } = require('lodash');
 
 const ig = new IgApiClient();
 
-// You must generate device id's before login.
-// Id's generated based on seed
-// So if you pass the same value as first argument - the same id's are generated every time
-
-/**
- * Source: https://github.com/dilame/instagram-private-api/issues/969#issuecomment-551436680
- * @param feed
- * @returns All items from the feed
- */
-
 async function getAllItemsFromFeed(feed) {
     let items = [];
     do {
@@ -28,20 +18,20 @@ async function getAllItemsFromFeed(feed) {
 
 
 app.get('/', (req, res) => {
-    ig.state.generateDevice('[kullanıcı adı]');
+    ig.state.generateDevice('USER NAME');
 
     (async () => {
-        await ig.account.login('[kullanıcı adı]', '[kullanıcı şifre');
+        await ig.account.login('USER NAME', 'PASSWORD');
         const followersFeed = ig.feed.accountFollowers(ig.state.cookieUserId);
         const followingFeed = ig.feed.accountFollowing(ig.state.cookieUserId);
         const followers = await getAllItemsFromFeed(followersFeed);
         const following = await getAllItemsFromFeed(followingFeed);
-        // Making a new map of users username that follow you.
 
         const followersUsername = new Set(followers.map(({ username }) => username));
         const notFollowingYou = following.filter(({ username }) => !followersUsername.has(username));
 
         for (const user of notFollowingYou) {
+            //Information where you see who does not follow you back
             console.log(user.username)
             console.log(user.profile_pic_url)
         }
